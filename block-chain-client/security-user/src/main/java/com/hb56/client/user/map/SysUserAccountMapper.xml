@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hb56.client.user.dao.SysUserAccountMapper">
+    <resultMap id="BaseResultMap" type="SysUserAccount">
+        <id column="SYS_USER_ACCOUNT_ID" property="sysUserAccountId" jdbcType="DECIMAL"/>
+        <result column="ACCOUNT" property="account" jdbcType="VARCHAR"/>
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
+        <result column="SOURCE_PLATFORM" property="sourcePlatform" jdbcType="VARCHAR"/>
+        <result column="EXTRA" property="extra" jdbcType="VARCHAR"/>
+        <result column="REGISTER_SOURCE_ID" property="registerSourceId" jdbcType="VARCHAR"/>
+        <result column="USER_ID" property="userId" jdbcType="DECIMAL"/>
+        <result column="ACCOUNT_STATUS" property="accountStatus" jdbcType="VARCHAR"/>
+        <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
+        <collection property="sysRoles" ofType="SysRole">
+            <id column="SYS_ROLE_ID" property="sysRoleId"/>
+            <result column="ROLE_NAME" property="roleName"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        SYS_USER_ACCOUNT_ID, ACCOUNT, PASSWORD, SOURCE_PLATFORM, EXTRA, REGISTER_SOURCE_ID,
+        USER_ID, ACCOUNT_STATUS,PHONE
+    </sql>
+    <select id="getUserAccount" resultMap="BaseResultMap">
+        select SYS_USER_ACCOUNT_ID,account,password,phone,account_status,
+        sys_role_id,role_name,u.user_id
+        from SYS_USER_ACCOUNT u
+        left join SYS_ROLE_USER r on u.user_id=r.user_id
+        left join SYS_ROLE s on r.role_id=s.sys_role_id
+        where u.account=#{account}
+    </select>
+
+    <select id="getPhoneUser" resultMap="BaseResultMap">
+        select SYS_USER_ACCOUNT_ID,account,password,phone,account_status,
+        sys_role_id,role_name,u.user_id
+        from SYS_USER_ACCOUNT u
+        left join SYS_ROLE_USER r on u.user_id=r.user_id
+        left join SYS_ROLE s on r.role_id=s.sys_role_id
+        where u.phone=#{phone}
+    </select>
+</mapper>

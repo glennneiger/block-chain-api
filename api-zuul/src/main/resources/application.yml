@@ -1,0 +1,47 @@
+server:
+  port: 7777
+
+spring:
+  application:
+    name: test-zuul
+  redis:
+    cluster:
+      nodes: 172.16.39.71:6379,172.16.39.72:6379,172.16.39.73:6379,172.16.39.74:6379,172.16.39.75:6379,172.16.39.76:6379
+      max-redirects: 3
+
+zuul:
+  routes:
+    sys:
+      path: /sys/**
+      serviceId: block-user
+
+    sya:
+      path: /sya/**
+      serviceId: block-security
+  ignored-services: "*"
+  sensitive-headers:
+  prefix:
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:hb56@172.16.40.198:32123/eureka/
+
+ribbon:
+  ReadTimeout: 24000
+  ConnectTimeout: 100
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+security-config:
+  # 无需认证
+  permit: /zz
+  # 无需鉴权
+  authenticate: /
+  #  鉴权el表达式
+  access-expression: "hasAuthority('Been') or @rbacService.hasPermission(request,authentication)"

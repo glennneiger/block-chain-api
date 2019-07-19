@@ -1,0 +1,119 @@
+server:
+  port: 8899
+  servlet:
+    session:
+      cookie:
+        name: auth
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://172.16.39.32:3306/block_chain_api
+      username: admin
+      password: admin
+      max-active: 20
+      initial-size: 5
+      min-idle: 5
+      max-wait: 60000
+      validation-query: select 1 from dual
+      min-evictable-idle-time-millis: 300000
+      filters: stat
+      web-stat-filter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+
+  redis:
+    lettuce:
+      pool:
+        max-active: 16
+        max-idle: 16
+        min-idle: 0
+    cluster:
+      nodes: 172.16.39.71:6379,172.16.39.72:6379,172.16.39.73:6379,172.16.39.74:6379,172.16.39.75:6379,172.16.39.76:6379
+      max-redirects: 3
+
+  rabbitmq:
+    addresses: 172.16.39.61:5672,172.16.39.62:5672
+    username: blockchain
+    password: blockchain
+    virtual-host: blockchain
+  sleuth:
+    sampler:
+      probability: 1
+
+  application:
+    name: block-security
+
+  thymeleaf:
+    cache: false
+
+mybatis:
+  mapper-locations: classpath:com/hb56/security/map/*.xml
+  type-aliases-package: com.hb56.security.model
+
+encrypt:
+  key-store:
+    location: classpath:keystore.jks
+    secret: mypass
+    alias: mytest
+
+sms-services-config:
+  sms-api-url: http://172.16.19.171:8000/proxies/messages/sms
+  sms-valid-time-interval: 300
+  length: 6
+
+lock-user:
+  key-lock: lock
+  key-locked: locked
+  fail-count: 5
+  lock-hours: 1
+  locked-hours: 24
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:hb56@172.16.40.198:32123/eureka/
+#      defaultZone: http://admin:hb56@octopus-eureka.eureka:8761/eureka/
+  instance:
+#    hostname: 172.16.40.198
+#    non-secure-port: 32189
+    prefer-ip-addrWess: true
+
+feign:
+  hystrix:
+    enabled: true
+#  okhttp:
+#    enabled: true
+
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 500
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 80000
+tx-lcn:
+  client:
+    manager-address: 172.16.39.31:8070
+  logger:
+    enabled: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://172.16.39.32:3306/tx-manager?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: admin
+  ribbon:
+    loadbalancer:
+      dtx:
+        enabled: true
+
+logging:
+  level:
+    com:
+      hb56:
+        security:
+          dao: debug

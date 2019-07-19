@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: security-user
+
+  datasource:
+    druid:
+      url: jdbc:oracle:thin:@172.16.39.201:1521/esbtest
+      username: blockchainedo
+      password: blockchainedo
+      max-active: 20
+      initial-size: 5
+      min-idle: 5
+      max-wait: 60000
+      validation-query: select 1 from dual
+      min-evictable-idle-time-millis: 300000
+# oracle
+      max-open-prepared-statements: 20
+#      filters: stat
+#      web-stat-filter:
+#        enabled: true
+#      stat-view-servlet:
+#        enabled: true
+
+  rabbitmq:
+    addresses: 172.16.39.61:5672,172.16.39.62:5672
+    username: blockchain
+    password: blockchain
+    virtual-host: blockchain
+  sleuth:
+    sampler:
+      probability: 1
+
+mybatis:
+  mapper-locations: classpath:com/hb56/client/user/map/*.xml
+  type-aliases-package: com.hb56.client.user.model
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:hb56@octopus-eureka.eureka:8761/eureka/
+  instance:
+    prefer-ip-address: true

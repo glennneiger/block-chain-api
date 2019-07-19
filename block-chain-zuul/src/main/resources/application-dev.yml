@@ -1,0 +1,90 @@
+server:
+  port: 7777
+
+spring:
+  application:
+    name: block-chain-zuul
+
+  servlet:
+    multipart:
+      enabled: true # 开启 multipart 上传功能
+      max-file-size: 200MB   # 文件写入磁盘的阈值
+      file-size-threshold: 2KB   # 最大文件大小
+      max-request-size: 215MB   # 最大请求大小
+
+  rabbitmq:
+    addresses: 172.16.39.61:5672,172.16.39.62:5672
+    username: blockchain
+    password: blockchain
+    virtual-host: blockchain
+#  zipkin:
+#    base-url: http://172.16.39.34:9411
+  sleuth:
+    sampler:
+      probability: 1
+
+zuul:
+  routes:
+    auth-server:
+      path: /auth/**
+      serviceId: block-chain-security
+    api-a:
+      path: /sys/**
+      serviceId: block-user
+
+    api-b:
+      path: /sya/**
+      serviceId: block-user2
+  ignored-services: "*"
+  sensitive-headers:
+#  ignored-headers: "Access-Control-Allow-Origin"  client与zuul同时配置跨域，解决multiple Origin
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:hb56@172.16.40.198:32123/eureka/
+  instance:
+    status-page-url: http://localhost:7777/swagger-ui.html
+
+swagger:
+  enabled: true
+
+ribbon:
+  ReadTimeout: 24000
+  ConnectTimeout: 100
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+security:
+  oauth2:
+    client:
+      client-id: esb
+      client-secret: secret
+      user-authorization-uri: ${auth-server}/oauth/authorize #请求认证的地址
+      access-token-uri: ${auth-server}/oauth/token
+    resource:
+#      user-info-uri: ${auth-server}/user
+#      prefer-token-info: false
+      token-info-uri: ${auth-server}/oauth/check_token
+#      jwt:
+#        key-value: -----BEGIN PUBLIC KEY-----
+#                   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnqHMzL0NiaUPqZoWXkSh6pruLQhpyRNNvaOUbYUPiIi0d+Kemzx+62ki/DAqePrBebFUFTHIJqr5sCucVOMdIOI/fkssyWbJ9hBXr49GYmZV6gZ9zikrmRj9AcbqbnGKvdOd8DHUhTlB63u9Pg2lbPdtG++TSWsWizkQYT2u8U8ry2UUDbl7AzgyN1DcKH98rhKB8Ikp6xeO8DfUpHOAzeNkp84eeO21xy3UwbA888D0Ca76TZzuGNYZKC+JSPvXjrbMvOSLDbLzaBvX+z3IfP7NXbUSwkbc8KITFQdJSrnBjnCYhRwwGpycMqMKt4xkG6XApC6F+h+csguc1PgxPQIDAQAB
+#                   -----END PUBLIC KEY-----
+#        key-uri: ${auth-server}/oauth/token_key #解析jwt令牌所需要密钥的地址
+security-config:
+   permit: /favicon.ico,/out,/auth/**,/sys/**
+   revoke-token-uri: ${auth-server}/logout
+
+auth-server2: http://${zuul.routes.auth-server.serviceId}
+zuul-auth: http://${spring.cloud.client.ip-address}:${server.port}/auth
+auth-server: http://172.16.40.198:32189
+
+#proxy:
+#  auth:
+#    load-balanced: true

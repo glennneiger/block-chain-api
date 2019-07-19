@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: block-security
+    version: @image.version@
+  name: block-security
+  namespace: block-chain
+
+spec:
+  minReadySeconds: 5
+  replicas: 2
+  strategy:
+     rollingUpdate:  ##由于replicas为3,则整个升级,pod个数在2-4个之间
+        maxSurge: 1      #滚动升级时会先启动1个pod
+        maxUnavailable: 1 #滚动升级时允许的最大Unavailable的pod个数
+  selector:
+    matchLabels:
+      app: block-security
+  template:
+    metadata:
+      labels:
+        app: block-security
+    spec:
+      containers:
+      - name: block-security
+        image: registry:5000/block-chain/block-security:@image.version@
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        env:
+        - name: PROFILES_OPTS
+          value: -Dspring.profiles.active=@env@ -Duser.timezone=GMT+8
+        ports:
+        - containerPort: 8899
+          protocol: TCP
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Shanghai
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: block-security
+  name: block-security
+  namespace: block-chain
+spec:
+  type: NodePort
+  ports:
+  - port: 8899
+    targetPort: 8899
+    nodePort: 32189
+  selector:
+    app: block-security
