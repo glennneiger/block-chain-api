@@ -1,0 +1,60 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE generatorConfiguration-->
+        <!--PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"-->
+        <!--"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">-->
+<!--<generatorConfiguration>-->
+    <!--&lt;!&ndash;驱动文件位置&ndash;&gt;-->
+
+    <!--&lt;!&ndash; 引入配置文件 &ndash;&gt;-->
+    <!--&lt;!&ndash;<properties resource="application.properties"/>&ndash;&gt;-->
+    <!--<context id="MysqlTables" targetRuntime="MyBatis3" defaultModelType="flat">-->
+        <!--&lt;!&ndash; 自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表；-->
+        <!--一般保留默认值，遇到数据库关键字（Java关键字），使用columnOverride覆盖 &ndash;&gt;-->
+        <!--<property name="javaFileEncoding" value="utf-8"/>-->
+        <!--<property name="autoDelimitKeywords" value="true"/>-->
+        <!--&lt;!&ndash;&lt;!&ndash; 格式化java代码 &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; 格式化XML代码 &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>&ndash;&gt;-->
+        <!--<plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
+        <!--&lt;!&ndash;<plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />&ndash;&gt;-->
+        <!--<commentGenerator>-->
+            <!--<property name="suppressAllComments" value="true"/>&lt;!&ndash; 是否取消注释 &ndash;&gt;-->
+            <!--&lt;!&ndash;<property name="suppressDate" value="true"/> &lt;!&ndash;是否生成注释代时间戳&ndash;&gt;&ndash;&gt;-->
+        <!--</commentGenerator>-->
+        <!--&lt;!&ndash; 数据库链接URL、用户名、密码 &ndash;&gt;-->
+        <!--<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"-->
+                        <!--connectionURL="jdbc:mysql://172.16.39.32:3306/block_chain_api"-->
+                        <!--userId="admin"-->
+                        <!--password="admin"/>-->
+        <!--&lt;!&ndash; 类型转换 &ndash;&gt;-->
+        <!--&lt;!&ndash;<javaTypeResolver>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL&ndash;&gt;-->
+        <!--&lt;!&ndash;和 NUMERIC 类型解析为java.math.BigDecimal &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="forceBigDecimals" value="false"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</javaTypeResolver>&ndash;&gt;-->
+
+
+        <!--<javaModelGenerator targetPackage="com.hb56.block.model" targetProject="../../block-chain-model/src/main/java">-->
+            <!--<property name="enableSubPackages" value="false"/>-->
+            <!--<property name="trimStrings" value="true"/>-->
+        <!--</javaModelGenerator>-->
+        <!--&lt;!&ndash; 生成mapxml文件 &ndash;&gt;-->
+        <!--<sqlMapGenerator targetPackage="com.hb56.client.api.map" targetProject="src/main/java">-->
+            <!--<property name="enableSubPackages" value="false"/>-->
+        <!--</sqlMapGenerator>-->
+        <!--&lt;!&ndash; 生成mapxml对应client，也就是接口dao &ndash;&gt;-->
+        <!--<javaClientGenerator targetPackage="com.hb56.client.api.dao" targetProject="src/main/java"-->
+                             <!--type="XMLMAPPER">-->
+            <!--<property name="enableSubPackages" value="false"/>-->
+        <!--</javaClientGenerator>-->
+        <!--&lt;!&ndash; table可以有多个,每个数据库中的表都可以写一个table，tableName表示要匹配的数据库表,也可以在tableName属性中通过使用%通配符来匹配所有数据库表,只有匹配的表才会自动生成文件 &ndash;&gt;-->
+
+        <!--<table tableName="user" domainObjectName="Userf" enableCountByExample="true"-->
+               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
+               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+    <!--</context>-->
+<!--</generatorConfiguration>-->

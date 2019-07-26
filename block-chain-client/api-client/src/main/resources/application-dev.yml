@@ -1,0 +1,33 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: block-api-client
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
+  datasource:
+    druid:
+      url: jdbc:mysql://172.16.39.32:3306/block_chain_api
+      username: admin
+      password: admin
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:com/hb56/client/api/map/*.xml
+  type-aliases-package: com.hb56.block.model
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:hb56@172.16.40.197:32123/eureka/
+  instance:
+    prefer-ip-address: true
+
+tx-lcn:
+  client:
+    manager-address: 127.0.0.1:8070

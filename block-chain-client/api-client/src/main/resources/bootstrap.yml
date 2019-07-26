@@ -1,0 +1,30 @@
+#server:
+#  port: 8091
+#
+#spring:
+#  application:
+#    name: block-api-client
+#
+#  cloud:
+#    config:
+#      discovery:
+#        enabled: true
+#        service-id: octopus-config
+#      name: ${spring.application.name}
+#    bus:
+#      id: ${vcap.application.name:${spring.application.name:application}}:${vcap.application.instance_index:${spring.profiles.active:${local.server.port:${server.port:0}}}}:${vcap.application.instance_id:${random.value}}
+#
+#  rabbitmq:
+#    addresses: 172.16.39.61:5672,172.16.39.62:5672
+#    username: esbadmin
+#    password: esbadmin
+#    virtual-host: ESBMS
+#    template:
+#      exchange: amqpExchange
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://admin:hb56@octopus-eureka.eureka:8761/eureka/
+#  instance:
+#    prefer-ip-address: true

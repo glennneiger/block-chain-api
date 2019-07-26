@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb56.client.api.dao.ApiMapper">
+  <resultMap id="BaseResultMap" type="Api">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cat_id" jdbcType="INTEGER" property="catId" />
+    <result column="api_name" jdbcType="VARCHAR" property="apiName" />
+    <result column="url2" jdbcType="VARCHAR" property="url2" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="api_desc" jdbcType="VARCHAR" property="apiDesc" />
+    <result column="req_desc" jdbcType="VARCHAR" property="reqDesc" />
+    <result column="header_example" jdbcType="VARCHAR" property="headerExample" />
+    <result column="req_example" jdbcType="VARCHAR" property="reqExample" />
+    <result column="resp_example" jdbcType="VARCHAR" property="respExample" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cat_id, api_name, url2, url, api_desc, req_desc, header_example, req_example, 
+    resp_example
+  </sql>
+  <select id="selectByExample" parameterType="ApiExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from api
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from api
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from api
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="ApiExample">
+    delete from api
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="Api">
+    insert into api (id, cat_id, api_name, 
+      url2, url, api_desc, 
+      req_desc, header_example, req_example, 
+      resp_example)
+    values (#{id,jdbcType=INTEGER}, #{catId,jdbcType=INTEGER}, #{apiName,jdbcType=VARCHAR}, 
+      #{url2,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{apiDesc,jdbcType=VARCHAR}, 
+      #{reqDesc,jdbcType=VARCHAR}, #{headerExample,jdbcType=VARCHAR}, #{reqExample,jdbcType=VARCHAR}, 
+      #{respExample,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="Api"  useGeneratedKeys="true" keyProperty="id">
+    insert into api
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="catId != null">
+        cat_id,
+      </if>
+      <if test="apiName != null">
+        api_name,
+      </if>
+      <if test="url2 != null">
+        url2,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="apiDesc != null">
+        api_desc,
+      </if>
+      <if test="reqDesc != null">
+        req_desc,
+      </if>
+      <if test="headerExample != null">
+        header_example,
+      </if>
+      <if test="reqExample != null">
+        req_example,
+      </if>
+      <if test="respExample != null">
+        resp_example,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="catId != null">
+        #{catId,jdbcType=INTEGER},
+      </if>
+      <if test="apiName != null">
+        #{apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="url2 != null">
+        #{url2,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="apiDesc != null">
+        #{apiDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="reqDesc != null">
+        #{reqDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="headerExample != null">
+        #{headerExample,jdbcType=VARCHAR},
+      </if>
+      <if test="reqExample != null">
+        #{reqExample,jdbcType=VARCHAR},
+      </if>
+      <if test="respExample != null">
+        #{respExample,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ApiExample" resultType="java.lang.Integer">
+    select count(*) from api
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update api
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.catId != null">
+        cat_id = #{record.catId,jdbcType=INTEGER},
+      </if>
+      <if test="record.apiName != null">
+        api_name = #{record.apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url2 != null">
+        url2 = #{record.url2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.apiDesc != null">
+        api_desc = #{record.apiDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reqDesc != null">
+        req_desc = #{record.reqDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headerExample != null">
+        header_example = #{record.headerExample,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reqExample != null">
+        req_example = #{record.reqExample,jdbcType=VARCHAR},
+      </if>
+      <if test="record.respExample != null">
+        resp_example = #{record.respExample,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update api
+    set id = #{record.id,jdbcType=INTEGER},
+      cat_id = #{record.catId,jdbcType=INTEGER},
+      api_name = #{record.apiName,jdbcType=VARCHAR},
+      url2 = #{record.url2,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      api_desc = #{record.apiDesc,jdbcType=VARCHAR},
+      req_desc = #{record.reqDesc,jdbcType=VARCHAR},
+      header_example = #{record.headerExample,jdbcType=VARCHAR},
+      req_example = #{record.reqExample,jdbcType=VARCHAR},
+      resp_example = #{record.respExample,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="Api">
+    update api
+    <set>
+      <if test="catId != null">
+        cat_id = #{catId,jdbcType=INTEGER},
+      </if>
+      <if test="apiName != null">
+        api_name = #{apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="url2 != null">
+        url2 = #{url2,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="apiDesc != null">
+        api_desc = #{apiDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="reqDesc != null">
+        req_desc = #{reqDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="headerExample != null">
+        header_example = #{headerExample,jdbcType=VARCHAR},
+      </if>
+      <if test="reqExample != null">
+        req_example = #{reqExample,jdbcType=VARCHAR},
+      </if>
+      <if test="respExample != null">
+        resp_example = #{respExample,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="Api">
+    update api
+    set cat_id = #{catId,jdbcType=INTEGER},
+      api_name = #{apiName,jdbcType=VARCHAR},
+      url2 = #{url2,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      api_desc = #{apiDesc,jdbcType=VARCHAR},
+      req_desc = #{reqDesc,jdbcType=VARCHAR},
+      header_example = #{headerExample,jdbcType=VARCHAR},
+      req_example = #{reqExample,jdbcType=VARCHAR},
+      resp_example = #{respExample,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

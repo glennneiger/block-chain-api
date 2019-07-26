@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: @project.artifactId@
+    version: @image.tag@
+  name: @project.artifactId@
+  namespace: @kubernetes.namespace@
+
+spec:
+  minReadySeconds: 5
+  replicas: 2
+  strategy:
+     rollingUpdate:  ##由于replicas为3,则整个升级,pod个数在2-4个之间
+        maxSurge: 1      #滚动升级时会先启动1个pod
+        maxUnavailable: 1 #滚动升级时允许的最大Unavailable的pod个数
+  selector:
+    matchLabels:
+      app: @project.artifactId@
+  template:
+    metadata:
+      labels:
+        app: @project.artifactId@
+    spec:
+      containers:
+      - name: @project.artifactId@
+        image: registry:5000/@kubernetes.namespace@/@project.artifactId@:@image.tag@
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        env:
+        - name: PROFILES_OPTS
+          value: -Dspring.profiles.active=@env@ -Duser.timezone=GMT+8
+        ports:
+        - containerPort: 8091
+          protocol: TCP
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Shanghai
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: @project.artifactId@
+  name: @project.artifactId@
+  namespace: @kubernetes.namespace@
+spec:
+  ports:
+  - port: 8091
+    targetPort: 8091
+  selector:
+    app: @project.artifactId@
