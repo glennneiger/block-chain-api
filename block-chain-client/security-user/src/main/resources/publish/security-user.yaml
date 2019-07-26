@@ -2,10 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: security-user
-    version: @image.version@
-  name: security-user
-  namespace: block-chain
+    app: @project.artifactId@
+    version: @image.tag@
+  name: @project.artifactId@
+  namespace: @kubernetes.namespace@
 
 spec:
   minReadySeconds: 5
@@ -16,15 +16,15 @@ spec:
         maxUnavailable: 1 #滚动升级时允许的最大Unavailable的pod个数
   selector:
     matchLabels:
-      app: security-user
+      app: @project.artifactId@
   template:
     metadata:
       labels:
-        app: security-user
+        app: @project.artifactId@
     spec:
       containers:
-      - name: security-user
-        image: registry:5000/block-chain/security-user:@image.version@
+      - name: @project.artifactId@
+        image: registry:5000/@kubernetes.namespace@/@project.artifactId@:@image.tag@
         imagePullPolicy: Always
         volumeMounts:
         - name: tz-config
@@ -45,12 +45,12 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    app: security-user
-  name: security-user
-  namespace: block-chain
+    app: @project.artifactId@
+  name: @project.artifactId@
+  namespace: @kubernetes.namespace@
 spec:
   ports:
   - port: 8080
     targetPort: 8080
   selector:
-    app: security-user
+    app: @project.artifactId@

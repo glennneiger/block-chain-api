@@ -54,7 +54,6 @@ encrypt:
     alias: mytest
 
 sms-services-config:
-  sms-api-url: http://172.16.19.171:8000/proxies/messages/sms
   sms-valid-time-interval: 300
   length: 6
 

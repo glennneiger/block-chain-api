@@ -2,10 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: block-zuul
-    version: @image.version@
-  name: block-zuul
-  namespace: block-chain
+    app: @project.artifactId@
+    version: @image.tag@
+  name: @project.artifactId@
+  namespace: @kubernetes.namespace@
 
 spec:
   minReadySeconds: 5
@@ -16,15 +16,15 @@ spec:
         maxUnavailable: 1 #滚动升级时允许的最大Unavailable的pod个数
   selector:
     matchLabels:
-      app: block-zuul
+      app: @project.artifactId@
   template:
     metadata:
       labels:
-        app: block-zuul
+        app: @project.artifactId@
     spec:
       containers:
-      - name: block-zuul
-        image: registry:5000/block-chain/block-zuul:@image.version@
+      - name: @project.artifactId@
+        image: registry:5000/@kubernetes.namespace@/@project.artifactId@:@image.tag@
         imagePullPolicy: Always
         volumeMounts:
         - name: tz-config
@@ -45,9 +45,9 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    app: block-zuul
-  name: block-zuul
-  namespace: block-chain
+    app: @project.artifactId@
+  name: @project.artifactId@
+  namespace: @kubernetes.namespace@
 spec:
   type: NodePort
   ports:
@@ -55,5 +55,5 @@ spec:
     nodePort: 32177
     targetPort: 7777
   selector:
-    app: block-zuul
+    app: @project.artifactId@
   sessionAffinity: ClientIP

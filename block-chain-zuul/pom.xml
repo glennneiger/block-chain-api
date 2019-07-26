@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>block-chain-api</artifactId>
         <groupId>com.hb56</groupId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>block-chain-zuul</artifactId>
 
@@ -14,7 +14,7 @@
             <id>development</id>
             <properties>
                 <env>dev</env>
-                <project.version>1.0.1-beta</project.version>
+                <image.tag>1.0.1-beta</image.tag>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -24,7 +24,7 @@
             <id>production</id>
             <properties>
                 <env>pro</env>
-                <project.version>1.0.1.release</project.version>
+                <image.tag>1.0.1.release</image.tag>
             </properties>
         </profile>
     </profiles>
@@ -33,12 +33,12 @@
         <dependency>
             <groupId>com.hb56</groupId>
             <artifactId>block-chain-resource-config</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb56</groupId>
             <artifactId>block-chain-zuul-config</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -60,13 +60,46 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>com.spotify</groupId>-->
+                <!--<artifactId>docker-maven-plugin</artifactId>-->
+                <!--<version>1.0.0</version>-->
+                <!--<configuration>-->
+                    <!--<imageName>172.16.40.63:5000/block-chain/block-zuul</imageName>-->
+                    <!--<dockerDirectory>${project.build.outputDirectory}/publish</dockerDirectory>-->
+                    <!--<resources>-->
+                        <!--<resource>-->
+                            <!--<targetPath>/</targetPath>-->
+                            <!--<directory>${project.build.directory}</directory>-->
+                            <!--<include>${project.build.finalName}.jar</include>-->
+                        <!--</resource>-->
+                    <!--</resources>-->
+                    <!--<serverId>public</serverId>-->
+                    <!--<registryUrl>http://172.16.40.63:8081/repository/docker-registry/v2</registryUrl>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
-
 
 </project>

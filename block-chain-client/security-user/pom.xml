@@ -5,7 +5,7 @@
     <parent>
         <artifactId>block-chain-client</artifactId>
         <groupId>com.hb56</groupId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>security-user</artifactId>
@@ -15,7 +15,7 @@
             <id>development</id>
             <properties>
                 <env>dev</env>
-                <project.version>1.0.1-beta</project.version>
+                <image.tag>1.0.1-beta</image.tag>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -25,16 +25,38 @@
             <id>production</id>
             <properties>
                 <env>pro</env>
-                <project.version>1.0.1.release</project.version>
+                <image.tag>1.0.1.release</image.tag>
             </properties>
         </profile>
     </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.hb56</groupId>
             <artifactId>block-chain-configure</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-bus-amqp</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-config</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

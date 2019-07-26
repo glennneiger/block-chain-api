@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.hb56</groupId>
     <artifactId>block-chain-api</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <organization>
@@ -51,17 +51,12 @@
     </distributionManagement>
 
     <properties>
+        <kubernetes.namespace>block-chain-api</kubernetes.namespace>
+        <dockerfile-maven-plugin>1.4.10</dockerfile-maven-plugin>
         <docker.registry>172.16.40.63:5000</docker.registry>
-        <docker.registry.url>http://172.16.40.63:8081/repository/docker-registry/v2</docker.registry.url>
         <hadoop.version>3.1.2</hadoop.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <file_encoding>UTF-8</file_encoding>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-        <argline>-server -Xms64m -Xmx256m -XX:PermSize=64m -XX:MaxPermSize=128m -Dfile.encoding=UTF-8
-            -Djava.net.preferIPv4Stack=true
-        </argline>
     </properties>
 
     <dependencyManagement>
@@ -85,6 +80,12 @@
                 <version>5.0.2.RELEASE</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.1.0</version>
+            </dependency>
             <!--https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter-->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -94,7 +95,7 @@
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>1.2.12</version>
+                <version>1.2.10</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/com.oracle/ojdbc6 -->
@@ -128,6 +129,33 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>default</id>
+                            <phase>package</phase>
+                            <goals>
+                                <!--package时触发docker命令-->
+                                <goal>build</goal>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <repository>${docker.registry}/${kubernetes.namespace}/${project.artifactId}</repository>
+                        <tag>${image.tag}</tag>
+                        <buildArgs>
+                            <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                        </buildArgs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

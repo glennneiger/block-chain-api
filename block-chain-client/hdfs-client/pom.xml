@@ -5,7 +5,7 @@
     <parent>
         <artifactId>block-chain-client</artifactId>
         <groupId>com.hb56</groupId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,7 +17,7 @@
             <id>development</id>
             <properties>
                 <env>dev</env>
-                <project.version>1.0.1-beta</project.version>
+                <image.tag>1.0.1-beta</image.tag>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -27,7 +27,7 @@
             <id>production</id>
             <properties>
                 <env>pro</env>
-                <project.version>1.0.1.release</project.version>
+                <image.tag>1.0.1.release</image.tag>
             </properties>
         </profile>
     </profiles>
@@ -51,7 +51,6 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.10.1</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

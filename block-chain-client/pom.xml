@@ -5,7 +5,7 @@
     <parent>
         <artifactId>block-chain-api</artifactId>
         <groupId>com.hb56</groupId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>block-chain-client</artifactId>
     <name>block-chain-client</name>
@@ -21,14 +21,6 @@
             <artifactId>block-chain-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.cloud</groupId>-->
-        <!--<artifactId>spring-cloud-starter-bus-amqp</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.cloud</groupId>-->
-        <!--<artifactId>spring-cloud-starter-config</artifactId>-->
-        <!--</dependency>-->
         <!-- 配置服务链路追踪 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -104,25 +96,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <dockerHost>http://172.16.40.26:2375</dockerHost>
-                    <imageName>${docker.registry}/${artifactId}:${project.version}</imageName>
-                    <dockerDirectory>${basedir}/src/main/resources/publish</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                    <serverId>public</serverId>
-                    <registryUrl>${docker.registry.url}</registryUrl>
-                </configuration>
             </plugin>
         </plugins>
     </build>

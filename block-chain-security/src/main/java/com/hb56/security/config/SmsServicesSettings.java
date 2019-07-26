@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 public class SmsServicesSettings {
     private int length;
 
-    private String smsApiUrl;
-
     private long smsValidTimeInterval;
 
     public long getSmsValidTimeInterval() {
@@ -22,14 +20,6 @@ public class SmsServicesSettings {
 
     public void setSmsValidTimeInterval(long smsValidTimeInterval) {
         this.smsValidTimeInterval = smsValidTimeInterval;
-    }
-
-    public String getSmsApiUrl() {
-        return smsApiUrl;
-    }
-
-    public void setSmsApiUrl(String smsApiUrl) {
-        this.smsApiUrl = smsApiUrl;
     }
 
     public int getLength() {

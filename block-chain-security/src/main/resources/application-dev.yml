@@ -29,6 +29,8 @@ spring:
         max-active: 16
         max-idle: 16
         min-idle: 0
+        max-wait: -PT0.001S
+
     cluster:
       nodes: 172.16.39.71:6379,172.16.39.72:6379,172.16.39.73:6379,172.16.39.74:6379,172.16.39.75:6379,172.16.39.76:6379
       max-redirects: 3
@@ -59,7 +61,6 @@ encrypt:
     alias: mytest
 
 sms-services-config:
-  sms-api-url: http://172.16.19.171:8000/proxies/messages/sms
   sms-valid-time-interval: 300
   length: 6
 
@@ -97,19 +98,19 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 80000
-tx-lcn:
-  client:
-    manager-address: 172.16.39.31:8070
-  logger:
-    enabled: true
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: jdbc:mysql://172.16.39.32:3306/tx-manager?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: admin
-    password: admin
-  ribbon:
-    loadbalancer:
-      dtx:
-        enabled: true
+#tx-lcn:
+#  client:
+#    manager-address: 172.16.39.31:8070
+#  logger:
+#    enabled: true
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    jdbc-url: jdbc:mysql://172.16.39.32:3306/tx-manager?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+#    username: admin
+#    password: admin
+#  ribbon:
+#    loadbalancer:
+#      dtx:
+#        enabled: true
 
 logging:
   level:
