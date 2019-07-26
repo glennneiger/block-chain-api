@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: edo-collect-client
+  servlet:
+    multipart:
+      enabled: true # 开启 multipart 上传功能
+      max-file-size: 200MB   # 文件写入磁盘的阈值
+      file-size-threshold: 2KB   # 最大文件大小
+      max-request-size: 215MB   # 最大请求大小
+  rabbitmq:
+    addresses: 172.16.39.61:5672,172.16.39.62:5672
+    username: esbadmin
+    password: esbadmin
+    virtual-host: ESBMS
+
+    template:
+      exchange: amqpExchange
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:hb56@172.16.40.198:32123/eureka/
+  instance:
+    prefer-ip-address: true
+
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 500
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000
+
+
